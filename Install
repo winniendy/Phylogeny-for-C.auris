@@ -1,0 +1,7 @@
+echo "# Phylogeny-for-C.auris" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/winniendy/Phylogeny-for-C.auris.git
+git push -u origin main

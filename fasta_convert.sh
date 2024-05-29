@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=fastq_to_fasta_batch
+#SBATCH --job-name=bam_to_fasta_batch
 #SBATCH --qos=bphl-umbrella
 #SBATCH --account=bphl-umbrella
-#SBATCH --output=fastq_to_fasta_%j.out 
+#SBATCH --output=bam_to_fasta.%j.out 
 #SBATCH --error=fastq_to_fasta.err
 #SBATCH --ntasks=1                       
 #SBATCH --cpus-per-task=10
@@ -11,31 +11,22 @@
 #SBATCH --mail-user=yi.huang@flhealth.gov
 #SBATCH --mail-type=FAIL,END
 
-
-module load fastx_toolkit/0.0.14
-
-# Define input and output directories
-input_dir="/blue/bphl-florida/yhwinnie/phylo/fasta_convert/input"  # Replace with your input directory path
-output_dir="/blue/bphl-florida/yhwinnie/phylo/fasta_convert/output"  # Replace with your output directory path
+# Define input and output files
+input_dir="/blue/bphl-florida/yhwinnie/phylo/fasta_convert/input"  # Replace with your input BAM file path
+output_dir="/blue/bphl-florida/yhwinnie/phylo/fasta_convert/output"  # Replace with your output FASTA file path
 
 # Create output directory if it doesn't exist
 mkdir -p "$output_dir"
 
-# Iterate over all .fastq files in the input directory
-for fastq_file in "$input_dir"/*.fastq.gz; do
-    # Get the base name of the file (without path and extension)
-    base_name=$(basename "$fastq_file" .fastq.gz)
-    # Define the output file path
-    fasta_file="$output_dir/${base_name}.fasta"
+# Iterate over all BAM files in the input directory
+for bam_file in "$input_dir"/*.bam; do
+    # Extract the filename without extension
+    filename=$(basename "$bam_file" .bam)
+    # Define the output FASTA file path
+    output_fasta="$output_dir/${filename}.fasta"
 
-
-    # Run the fastq_to_fasta command with decompression
-    zcat "$fastq_file" | fastq_to_fasta -o "$fasta_file"
-
-    # Check if the command was successful
-    if [ $? -eq 0 ]; then
-        echo "Successfully converted $fastq_file to $fasta_file"
-    else
-        echo "Error converting $fastq_file"
-    fi
+    # Extract mapped sequences in BAM to FASTA
+    samtools fasta "$bam_file" > "$output_fasta" 
+    
+    echo "Conversion complete: $bam_file -> $output_fasta"
 done

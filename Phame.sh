@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=bam_to_fasta_batch
+#SBATCH --job-name=phame
 #SBATCH --qos=bphl-umbrella
 #SBATCH --account=bphl-umbrella
 #SBATCH --output=phame.%j.out 

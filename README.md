@@ -2,11 +2,15 @@ This script is using in HiperGator HPG.
 
 Output files */*.mapped.bam from Pensacola are required.
 
+
 PhaMe installation is required: https://phame.readthedocs.io/en/stable/install/conda.html;
 
 Or module load phame in HPG.
 
-SLURM is required.
+
+SLURM is needed. For HiPerGator users, its installation is not needed.
+
+Python3 is needed. The package "pandas" should be installed by pip3 install pandas if not included in your python3.
  
 conda create -n phylo -c conda-forge python=3.10 pandas;
 

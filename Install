@@ -1,3 +1,0 @@
-This script is using in HiperGator HPG. 
-Output files */*.mapped.bam from Pensacola are required.
-SLURM is required.
